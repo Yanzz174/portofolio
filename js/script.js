@@ -31,16 +31,20 @@ if (menuToggle && navLinks) {
         e.stopPropagation();
         navLinks.classList.toggle('nav-active');
 
+        // Kunci scroll halaman belakang saat menu terbuka
+        document.body.classList.toggle('no-scroll');
+
         if (menuIcon) {
             menuIcon.classList.toggle('fa-bars');
             menuIcon.classList.toggle('fa-xmark');
         }
     });
 
-    // Otomatis tutup menu saat memilih tautan
+    // Otomatis tutup menu & lepas kunci scroll saat tautan diklik
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', () => {
             navLinks.classList.remove('nav-active');
+            document.body.classList.remove('no-scroll');
             if (menuIcon) {
                 menuIcon.classList.add('fa-bars');
                 menuIcon.classList.remove('fa-xmark');
@@ -48,10 +52,11 @@ if (menuToggle && navLinks) {
         });
     });
 
-    // Otomatis tutup menu jika pengguna mengklik area di luar menu
+    // Otomatis tutup menu jika mengklik area luar
     document.addEventListener('click', (e) => {
         if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
             navLinks.classList.remove('nav-active');
+            document.body.classList.remove('no-scroll');
             if (menuIcon) {
                 menuIcon.classList.add('fa-bars');
                 menuIcon.classList.remove('fa-xmark');

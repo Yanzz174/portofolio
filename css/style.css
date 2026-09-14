@@ -35,12 +35,19 @@ i {
 
 /* NAVBAR */
 header {
-    position: sticky;
+    position: fixed; /* Ubah dari sticky ke fixed */
     top: 0;
-    background-color: rgba(15, 23, 42, 0.85);
+    left: 0;
+    width: 100%;
+    background-color: rgba(15, 23, 42, 0.95);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-color);
-    z-index: 100;
+    z-index: 1000;
+}
+
+/* Tambahkan ini di bawah body agar background tidak bisa di-scroll saat menu buka */
+body.no-scroll {
+    overflow: hidden !important;
 }
 
 .navbar {
@@ -104,7 +111,7 @@ header {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 4rem 2rem;
+    padding: 6rem 2rem 4rem 2rem; /* Tambah padding-top menjadi 6rem */
 }
 
 .hero-content {
@@ -403,25 +410,26 @@ footer {
 
     /* FIX: Menu meluncur tepat di bawah bar navigasi */
     .nav-links {
-        position: fixed;
-        top: 55px;
-        right: 0;
-        width: 65%;
-        max-width: 250px;
-        height: calc(100vh - 55px);
-        background-color: #1e293b;
-        border-left: 1px solid var(--border-color);
-        border-bottom: 1px solid var(--border-color);
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        padding-top: 1.5rem;
-        gap: 1.5rem;
-        transform: translateX(100%);
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.5);
-        z-index: 999;
+            position: fixed;
+            top: 60px; /* Pas di bawah tinggi header */
+            right: 0;
+            width: 70%;
+            max-width: 260px;
+            height: calc(100dvh - 60px); /* Gunakan 100dvh agar presisi dengan layar browser HP */
+            background-color: #1e293b;
+            border-left: 1px solid var(--border-color);
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding-top: 2rem;
+            gap: 1.5rem;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
     }
+
 
     .nav-links.nav-active {
         transform: translateX(0);
