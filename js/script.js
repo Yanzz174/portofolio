@@ -1,7 +1,7 @@
 // Memperbarui tahun secara otomatis di bagian footer
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// ANIMASI SCROLL REVEAL DUA ARAH (FADE IN & FADE OUT)
+// ANIMASI SCROLL REVEAL (OPTIMASI UNTUK MOBLIE & DESKTOP)
 const revealElements = document.querySelectorAll('.reveal');
 
 const revealOnScroll = () => {
@@ -10,14 +10,12 @@ const revealOnScroll = () => {
     revealElements.forEach((el) => {
         const rect = el.getBoundingClientRect();
 
-        // Batas deteksi elemen saat masuk ke layar (atas dan bawah)
-        const isInViewport = (rect.top < windowHeight * 0.85) && (rect.bottom > 100);
+        // Toleransi jarak pemicu disesuaikan agar stabil di layar HP yang pendek
+        const isInViewport = (rect.top < windowHeight * 0.9) && (rect.bottom > 40);
 
         if (isInViewport) {
-            // Tambahkan class aktif jika elemen masuk ke layar
             el.classList.add('active');
         } else {
-            // Hapus class aktif jika elemen keluar dari layar (scroll ke atas/bawah)
             el.classList.remove('active');
         }
     });
@@ -29,7 +27,8 @@ const navLinks = document.getElementById('nav-links');
 const menuIcon = menuToggle ? menuToggle.querySelector('i') : null;
 
 if (menuToggle && navLinks) {
-    menuToggle.addEventListener('click', () => {
+    menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         navLinks.classList.toggle('nav-active');
 
         if (menuIcon) {
@@ -38,6 +37,7 @@ if (menuToggle && navLinks) {
         }
     });
 
+    // Otomatis tutup menu saat memilih tautan
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', () => {
             navLinks.classList.remove('nav-active');
@@ -47,8 +47,19 @@ if (menuToggle && navLinks) {
             }
         });
     });
+
+    // Otomatis tutup menu jika pengguna mengklik area di luar menu
+    document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+            navLinks.classList.remove('nav-active');
+            if (menuIcon) {
+                menuIcon.classList.add('fa-bars');
+                menuIcon.classList.remove('fa-xmark');
+            }
+        }
+    });
 }
 
-// Jalankan fungsi saat halaman dimuat dan saat di-scroll
+// Jalankan saat dokumen dimuat dan di-scroll
 window.addEventListener('DOMContentLoaded', revealOnScroll);
 window.addEventListener('scroll', revealOnScroll);
