@@ -401,22 +401,22 @@ footer {
         display: block;
     }
 
-    /* FIX: Mengubah top menjadi tinggi header (~60px) dan memperhitungkan tinggi viewport */
+    /* FIX: Menu meluncur tepat di bawah bar navigasi */
     .nav-links {
         position: fixed;
-        top: 60px;
+        top: 55px;
         right: 0;
-        width: 75%;
-        max-width: 280px;
-        height: calc(100vh - 60px);
-        background-color: rgba(15, 23, 42, 0.98);
-        backdrop-filter: blur(16px);
+        width: 65%;
+        max-width: 250px;
+        height: calc(100vh - 55px);
+        background-color: #1e293b;
         border-left: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        padding-top: 2.5rem;
-        gap: 1.8rem;
+        padding-top: 1.5rem;
+        gap: 1.5rem;
         transform: translateX(100%);
         transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.5);
