@@ -1,7 +1,7 @@
 // Memperbarui tahun secara otomatis di bagian footer
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// ANIMASI SCROLL REVEAL (OPTIMASI UNTUK MOBLIE & DESKTOP)
+// ANIMASI SCROLL REVEAL (FADE IN & FADE OUT)
 const revealElements = document.querySelectorAll('.reveal');
 
 const revealOnScroll = () => {
@@ -9,9 +9,7 @@ const revealOnScroll = () => {
 
     revealElements.forEach((el) => {
         const rect = el.getBoundingClientRect();
-
-        // Toleransi jarak pemicu disesuaikan agar stabil di layar HP yang pendek
-        const isInViewport = (rect.top < windowHeight * 0.9) && (rect.bottom > 40);
+        const isInViewport = (rect.top < windowHeight * 0.88) && (rect.bottom > 40);
 
         if (isInViewport) {
             el.classList.add('active');
@@ -21,50 +19,59 @@ const revealOnScroll = () => {
     });
 };
 
-// NAVIGASI MOBILE (HAMBURGER MENU TOGGLE)
+// NAVIGASI MOBILE & BLUR OVERLAY LOGIC
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
+const menuOverlay = document.getElementById('menu-overlay');
 const menuIcon = menuToggle ? menuToggle.querySelector('i') : null;
 
-if (menuToggle && navLinks) {
-    menuToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        navLinks.classList.toggle('nav-active');
-
-        // Kunci scroll halaman belakang saat menu terbuka
-        document.body.classList.toggle('no-scroll');
-
-        if (menuIcon) {
-            menuIcon.classList.toggle('fa-bars');
-            menuIcon.classList.toggle('fa-xmark');
-        }
-    });
-
-    // Otomatis tutup menu & lepas kunci scroll saat tautan diklik
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('nav-active');
-            document.body.classList.remove('no-scroll');
-            if (menuIcon) {
-                menuIcon.classList.add('fa-bars');
-                menuIcon.classList.remove('fa-xmark');
-            }
-        });
-    });
-
-    // Otomatis tutup menu jika mengklik area luar
-    document.addEventListener('click', (e) => {
-        if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
-            navLinks.classList.remove('nav-active');
-            document.body.classList.remove('no-scroll');
-            if (menuIcon) {
-                menuIcon.classList.add('fa-bars');
-                menuIcon.classList.remove('fa-xmark');
-            }
-        }
-    });
+function openMenu() {
+    navLinks.classList.add('nav-active');
+    if (menuOverlay) menuOverlay.classList.add('active');
+    if (menuIcon) {
+        menuIcon.classList.remove('fa-bars');
+        menuIcon.classList.add('fa-xmark');
+    }
 }
 
-// Jalankan saat dokumen dimuat dan di-scroll
+function closeMenu() {
+    navLinks.classList.remove('nav-active');
+    if (menuOverlay) menuOverlay.classList.remove('active');
+    if (menuIcon) {
+        menuIcon.classList.remove('fa-xmark');
+        menuIcon.classList.add('fa-bars');
+    }
+}
+
+if (menuToggle && navLinks) {
+    // Toggle menu saat ikon diklik
+    menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (navLinks.classList.contains('nav-active')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+
+    // Tap di area blur (luar menu) -> Tutup menu
+    if (menuOverlay) {
+        menuOverlay.addEventListener('click', closeMenu);
+    }
+
+    // Klik link di menu -> Tutup menu
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Otomatis menutup menu saat layar di-scroll
+    window.addEventListener('scroll', () => {
+        if (navLinks.classList.contains('nav-active')) {
+            closeMenu();
+        }
+        revealOnScroll();
+    }, { passive: true });
+}
+
+// Jalankan saat dokumen pertama kali dimuat
 window.addEventListener('DOMContentLoaded', revealOnScroll);
-window.addEventListener('scroll', revealOnScroll);
