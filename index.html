@@ -15,22 +15,36 @@
         <nav class="navbar">
             <a href="#" class="logo"><i class="fa-solid fa-terminal"></i> Yanzz.</a>
 
-            <!-- Tombol Hamburger Mobile -->
-            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+            <div class="nav-right">
+                <!-- Menu Navigasi -->
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#about">Tentang</a></li>
+                    <li><a href="#projects">Proyek</a></li>
+                    <li><a href="#skills">Keahlian</a></li>
+                    <li><a href="#contact">Kontak</a></li>
+                    <!-- Tombol Tema Khusus Tampilan Mobile -->
+                    <li class="mobile-theme-item">
+                        <button class="theme-toggle mobile-theme-toggle" aria-label="Ganti Tema">
+                            <i class="fa-regular fa-sun"></i> <span>Ganti Tema</span>
+                        </button>
+                    </li>
+                </ul>
 
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#about">Tentang</a></li>
-                <li><a href="#projects">Proyek</a></li>
-                <li><a href="#skills">Keahlian</a></li>
-                <li><a href="#contact">Kontak</a></li>
-            </ul>
+                <!-- Tombol Tema Desktop (Pojok Kanan) -->
+                <button class="theme-toggle desktop-theme-toggle" aria-label="Ganti Tema">
+                    <i class="fa-regular fa-sun"></i>
+                </button>
+
+                <!-- Tombol Hamburger Mobile -->
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </nav>
     </header>
 
-    <!-- BACKDROP BLUR OVERLAY (BARU) -->
-        <div class="menu-overlay" id="menu-overlay"></div>
+    <!-- BACKDROP BLUR OVERLAY -->
+    <div class="menu-overlay" id="menu-overlay"></div>
 
     <!-- HERO SECTION -->
     <section class="hero">
@@ -136,8 +150,8 @@
         <h2><i class="fa-regular fa-paper-plane"></i> Hubungi Saya</h2>
         <p>Silakan hubungi saya melalui tautan di bawah ini:</p>
         <div class="contact-links">
-            <a href="mailto:zexian84@gmail.com" class="contact-item"><i class="fa-regular fa-envelope"></i> Email</a>
-            <a href="https://github.com/Yanzz174" target="_blank" class="contact-item"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="mailto:emailkamu@example.com" class="contact-item"><i class="fa-regular fa-envelope"></i> Email</a>
+            <a href="https://github.com/" target="_blank" class="contact-item"><i class="fa-brands fa-github"></i> GitHub</a>
             <a href="https://instagram.com/" target="_blank" class="contact-item"><i class="fa-brands fa-instagram"></i> Instagram</a>
         </div>
     </section>

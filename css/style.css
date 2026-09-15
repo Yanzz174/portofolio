@@ -13,8 +13,21 @@
     --accent-color: #38bdf8;
     --accent-hover: #0284c7;
     --border-color: #334155;
+    --header-bg: rgba(15, 23, 42, 0.95);
     --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* VARIABEL TEMA TERANG (LIGHT MODE) */
+body.light-mode {
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --accent-color: #0284c7;
+    --accent-hover: #0369a1;
+    --border-color: #e2e8f0;
+    --header-bg: rgba(248, 250, 252, 0.95);
 }
 
 html {
@@ -27,24 +40,26 @@ body {
     font-family: var(--font-main);
     line-height: 1.6;
     overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 i {
     margin-right: 0.4rem;
 }
 
-/* NAVBAR (HEADER UTUH DI PALING ATAS) */
+/* NAVBAR */
 header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 60px; /* Tinggi dikunci presisi */
-    background-color: rgba(15, 23, 42, 0.95);
+    height: 60px;
+    background-color: var(--header-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-color);
     z-index: 1000;
+    transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
 .navbar {
@@ -69,10 +84,51 @@ header {
     transform: scale(1.03);
 }
 
+/* AREA KANAN NAVBAR */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* STYLING TOMBOL TOGGLE TEMA */
+.theme-toggle {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+}
+
+/* KHUSUS DESKTOP TOGGLE (PRESISE CENTERING) */
+.desktop-theme-toggle {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+}
+
+.desktop-theme-toggle i {
+    margin-right: 0; /* Reset margin r-0 agar ikon tepat di tengah */
+}
+
+/* HOVER NORMAL */
+.theme-toggle:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transform: scale(1.03);
+}
+
 .nav-links {
     display: flex;
     list-style: none;
     gap: 1.8rem;
+    align-items: center;
 }
 
 .nav-links a {
@@ -102,20 +158,28 @@ header {
     width: 100%;
 }
 
-/* BACKDROP BLUR OVERLAY (DI BAWAH HEADER) */
+.mobile-theme-item {
+    display: none;
+}
+
+/* BACKDROP BLUR OVERLAY */
 .menu-overlay {
     position: fixed;
     top: 60px;
     left: 0;
     width: 100%;
     height: calc(100vh - 60px);
-    background-color: rgba(15, 23, 42, 0.65);
+    background-color: rgba(15, 23, 42, 0.5);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     z-index: 998;
+}
+
+body.light-mode .menu-overlay {
+    background-color: rgba(248, 250, 252, 0.5);
 }
 
 .menu-overlay.active {
@@ -174,6 +238,10 @@ header {
 
 .primary-btn {
     background-color: var(--accent-color);
+    color: #ffffff;
+}
+
+body:not(.light-mode) .primary-btn {
     color: #0f172a;
 }
 
@@ -193,7 +261,6 @@ header {
     border-color: var(--accent-color);
     color: var(--accent-color);
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.5);
 }
 
 /* ANIMASI ENTRANCE HERO */
@@ -221,6 +288,7 @@ header {
     margin: 0 auto;
     padding: 5rem 2rem;
     border-top: 1px solid var(--border-color);
+    transition: border-color 0.4s ease;
 }
 
 .section h2 {
@@ -257,13 +325,13 @@ header {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 1.8rem;
-    transition: var(--transition-smooth);
+    transition: var(--transition-smooth), background-color 0.4s ease, border-color 0.4s ease;
 }
 
 .project-card:hover {
     transform: translateY(-6px);
     border-color: var(--accent-color);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
 .project-card h3 {
@@ -284,7 +352,7 @@ header {
 }
 
 .tags span {
-    background-color: rgba(56, 189, 248, 0.1);
+    background-color: rgba(56, 189, 248, 0.12);
     color: var(--accent-color);
     padding: 0.2rem 0.6rem;
     border-radius: 4px;
@@ -314,13 +382,13 @@ header {
     padding: 1.5rem;
     border-radius: 10px;
     border: 1px solid var(--border-color);
-    transition: var(--transition-smooth);
+    transition: var(--transition-smooth), background-color 0.4s ease, border-color 0.4s ease;
 }
 
 .skill-category:hover {
     transform: translateY(-4px);
-    border-color: var(--border-color);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    border-color: var(--accent-color);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .skill-category h3 {
@@ -362,7 +430,7 @@ header {
     color: var(--text-primary);
     text-decoration: none;
     border-radius: 8px;
-    transition: var(--transition-smooth);
+    transition: var(--transition-smooth), background-color 0.4s ease, border-color 0.4s ease;
 }
 
 .contact-item:hover {
@@ -378,6 +446,7 @@ footer {
     border-top: 1px solid var(--border-color);
     color: var(--text-secondary);
     font-size: 0.9rem;
+    transition: border-color 0.4s ease;
 }
 
 /* ANIMASI SCROLL REVEAL HALUS */
@@ -422,11 +491,18 @@ footer {
         padding: 0 1.2rem;
     }
 
+    .nav-right {
+        gap: 0;
+    }
+
+    .desktop-theme-toggle {
+        display: none;
+    }
+
     .menu-toggle {
         display: block;
     }
 
-    /* Menu meluncur presisi dari bawah header (top: 60px) */
     .nav-links {
         position: fixed;
         top: 60px;
@@ -434,7 +510,7 @@ footer {
         width: 65%;
         max-width: 240px;
         height: calc(100dvh - 60px);
-        background-color: rgba(30, 41, 59, 0.98);
+        background-color: var(--card-bg);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border-left: 1px solid var(--border-color);
@@ -445,8 +521,8 @@ footer {
         padding-top: 2rem;
         gap: 1.5rem;
         transform: translateX(100%);
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.5);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+        box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.2);
         z-index: 999;
     }
 
@@ -459,6 +535,19 @@ footer {
         width: 100%;
         text-align: center;
         padding: 0.5rem 0;
+    }
+
+    .mobile-theme-item {
+        display: block;
+        width: 80%;
+        margin-top: 0.5rem;
+    }
+
+    .mobile-theme-toggle {
+        width: 100%;
+        padding: 0.6rem 1rem;
+        gap: 0.5rem;
+        font-size: 0.95rem;
     }
 
     .hero {
