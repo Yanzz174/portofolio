@@ -19,6 +19,51 @@ const revealOnScroll = () => {
     });
 };
 
+// SCROLLSPY (HIGHLIGHT NAVIGASI AKTIF)
+const sections = document.querySelectorAll('section[id]');
+
+const scrollActive = () => {
+    const scrollY = window.pageYOffset;
+
+    sections.forEach(current => {
+        const sectionHeight = current.offsetHeight;
+        const sectionTop = current.offsetTop - 120;
+        const sectionId = current.getAttribute('id');
+        const navLink = document.querySelector(`.nav-links a[href*="${sectionId}"]`);
+
+        if (navLink) {
+            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                navLink.classList.add('active-link');
+            } else {
+                navLink.classList.remove('active-link');
+            }
+        }
+    });
+};
+
+// LOGIKA FLOATING BACK TO TOP
+const backToTopBtn = document.getElementById('back-to-top');
+
+const toggleBackToTop = () => {
+    if (backToTopBtn) {
+        if (window.pageYOffset > 300) {
+            backToTopBtn.classList.add('show');
+        } else {
+            backToTopBtn.classList.remove('show');
+        }
+    }
+};
+
+if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+      this.blur();
+    });
+}
+
 // LOGIKA PENGGANTIAN TEMA (DARK / LIGHT MODE)
 const themeToggleBtns = document.querySelectorAll('.theme-toggle');
 
@@ -43,7 +88,6 @@ function updateThemeUI(isLight) {
     });
 }
 
-// Cek preferensi tema yang tersimpan di localStorage
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light') {
     document.body.classList.add('light-mode');
@@ -98,16 +142,26 @@ if (menuToggle && navLinks) {
     }
 
     document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
-
-    window.addEventListener('scroll', () => {
-        if (navLinks.classList.contains('nav-active')) {
+        link.addEventListener('click', () => {
+            link.blur(); // Melepaskan fokus tombol agar warna biru tidak bertahan di HP
             closeMenu();
-        }
-        revealOnScroll();
-    }, { passive: true });
+        });
+    });
 }
 
-// Jalankan saat dokumen dimuat
-window.addEventListener('DOMContentLoaded', revealOnScroll);
+// PIPELINE SCROLL EVENT LISTENER
+window.addEventListener('scroll', () => {
+    if (navLinks && navLinks.classList.contains('nav-active')) {
+        closeMenu();
+    }
+    revealOnScroll();
+    scrollActive();
+    toggleBackToTop();
+}, { passive: true });
+
+// JALANKAN SAAT DOKUMEN DIBUKA
+window.addEventListener('DOMContentLoaded', () => {
+    revealOnScroll();
+    scrollActive();
+    toggleBackToTop();
+});
